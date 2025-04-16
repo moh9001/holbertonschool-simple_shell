@@ -1,4 +1,4 @@
-#include "../shell.h"
+#include "shell.h"
 
 /**
  * tokenize - Splits a string into an array of tokens
