@@ -11,5 +11,6 @@
 /* Function prototype */
 void execute_command(char *line);
 char **tokenize(char *line);
+char *find_command(char *cmd);
 
 #endif /* SHELL_H */
