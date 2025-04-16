@@ -3,6 +3,21 @@
 extern char **environ;
 
 /**
+ * print_env - Prints the current environment
+ */
+void print_env(void)
+{
+	int i = 0;
+
+	while (environ[i])
+	{
+		write(STDOUT_FILENO, environ[i], strlen(environ[i]));
+		write(STDOUT_FILENO, "\n", 1);
+		i++;
+	}
+}
+
+/**
  * execute_command - Forks and executes a command with arguments
  * @line: The input command line (e.g. "/bin/ls -l")
  */

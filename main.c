@@ -34,6 +34,11 @@ int main(void)
 			free(line);
 			exit(0);
 		}
+		if (strcmp(line, "env") == 0)
+		{
+			print_env();
+			continue;
+		}
 
 	execute_command(line);
 
