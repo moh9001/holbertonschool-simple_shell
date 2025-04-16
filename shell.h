@@ -18,5 +18,6 @@ void execute_command(char *line);
 char **tokenize(char *line);
 char *find_command(char *cmd);
 void print_env(void);
+int is_whitespace(const char *str);
 
 #endif /* SHELL_H */

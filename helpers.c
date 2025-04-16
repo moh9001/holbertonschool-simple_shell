@@ -52,12 +52,21 @@ char *find_command(char *cmd)
 {
 	char *path = NULL, *path_copy = NULL, *dir = NULL;
 	char *full_path = NULL;
-	int len;
+	int len, i = 0;
 
 	if (access(cmd, X_OK) == 0)
 		return (strdup(cmd));
 
-	path = getenv("PATH");
+	while (environ[i])
+	{
+		if (strncmp(environ[i], "PATH=", 5) == 0)
+		{
+			path = environ[i] + 5;
+			break;
+		}
+		i++;
+	}
+
 	if (!path)
 		return (NULL);
 
@@ -105,3 +114,19 @@ void print_env(void)
 		i++;
 	}
 }
+/**
+ * is_whitespace - Checks if a string is only spaces/tabs
+ * @str: The input string
+ * Return: 1 if only whitespace or empty, 0 otherwise
+ */
+int is_whitespace(const char *str)
+{
+	while (*str)
+	{
+		if (*str != ' ' && *str != '\t')
+			return (0);
+		str++;
+	}
+	return (1);
+}
+

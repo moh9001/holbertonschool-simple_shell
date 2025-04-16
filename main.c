@@ -39,6 +39,9 @@ int main(void)
 			print_env();
 			continue;
 		}
+		if (is_whitespace(line))
+			continue;
+
 
 	execute_command(line);
 
