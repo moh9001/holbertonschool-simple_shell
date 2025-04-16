@@ -8,8 +8,13 @@
 #include <sys/wait.h>
 #include <string.h>
 
-/* Function prototype */
+/* Environment variable */
+extern char **environ;
+
+/* Core functions */
 void execute_command(char *line);
+
+/* Utility functions */
 char **tokenize(char *line);
 char *find_command(char *cmd);
 void print_env(void);
