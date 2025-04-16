@@ -24,12 +24,19 @@ int main(void)
 			free(line);
 			exit(0); /* Exit on Ctrl+D */
 		}
-
-		/* Remove newline character from input */
+		/* Remove newline character */
 		if (line[read - 1] == '\n')
 			line[read - 1] = '\0';
 
-		execute_command(line);
+		/* Handle built-in exit */
+		if (strcmp(line, "exit") == 0)
+		{
+			free(line);
+			exit(0);
+		}
+
+	execute_command(line);
+
 	}
 
 	free(line);
