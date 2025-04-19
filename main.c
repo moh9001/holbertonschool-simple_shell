@@ -10,7 +10,7 @@ int main(void)
 	char *line = NULL;
 	size_t len = 0;
 	ssize_t read;
-	int ret;
+	int ret = 0;
 
 	while (1)
 	{
@@ -21,7 +21,7 @@ int main(void)
 		if (read == -1)
 		{
 			free(line);
-			exit(0);
+			exit(ret); /* use last command's return code */
 		}
 
 		if (line[read - 1] == '\n')
@@ -44,15 +44,6 @@ int main(void)
 			continue;
 		}
 
-		ret = execute_command(line);
-
-		if (!isatty(STDIN_FILENO))
-		{
-			free(line);
-			exit(ret);
-		}
+		ret = execute_command(line); /* update return value */
 	}
-
-	free(line);
-	return (0);
 }
