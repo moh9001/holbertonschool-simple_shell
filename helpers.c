@@ -54,9 +54,16 @@ char *find_command(char *cmd)
 	char *full_path = NULL;
 	int len, i = 0;
 
-	if (access(cmd, X_OK) == 0)
-		return (strdup(cmd));
+	/* If command is already an absolute/relative path */
+	if (cmd[0] == '/' || strncmp(cmd, "./", 2) == 0)
+	{
+		if (access(cmd, X_OK) == 0)
+			return (strdup(cmd));
+		else
+			return (NULL);
+	}
 
+	/* Manually find PATH from environ */
 	while (environ[i])
 	{
 		if (strncmp(environ[i], "PATH=", 5) == 0)
@@ -67,7 +74,8 @@ char *find_command(char *cmd)
 		i++;
 	}
 
-	if (!path)
+	/* PATH is empty or not set */
+	if (!path || *path == '\0')
 		return (NULL);
 
 	path_copy = strdup(path);
