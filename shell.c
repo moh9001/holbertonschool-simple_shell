@@ -4,31 +4,30 @@
  * execute_command - Forks and executes a command with arguments
  * @line: The input command line
  */
-void execute_command(char *line)
+int execute_command(char *line)
 {
 	pid_t pid;
-	int status;
+	int status = 0;
 	char **argv = NULL;
 	char *full_path = NULL;
 
 	if (line == NULL || line[0] == '\0')
-		return;
+		return (0);
 
 	argv = tokenize(line);
 	if (argv == NULL)
-		return;
+		return (0);
 
 	pid = fork();
 	if (pid == -1)
 	{
 		perror("fork failed");
 		free(argv);
-		exit(EXIT_FAILURE);
+		return (1);
 	}
 
 	if (pid == 0)
 	{
-		/* Child process */
 		full_path = find_command(argv[0]);
 		if (!full_path)
 		{
@@ -47,10 +46,10 @@ void execute_command(char *line)
 	}
 	else
 	{
-		/* Parent process */
 		waitpid(pid, &status, 0);
 	}
 
 	free(argv);
 	free(full_path);
+	return (WEXITSTATUS(status));
 }

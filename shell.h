@@ -12,7 +12,7 @@
 extern char **environ;
 
 /* Core functions */
-void execute_command(char *line);
+int execute_command(char *line);
 
 /* Utility functions */
 char **tokenize(char *line);

@@ -10,6 +10,7 @@ int main(void)
 	char *line = NULL;
 	size_t len = 0;
 	ssize_t read;
+	int ret;
 
 	while (1)
 	{
@@ -24,6 +25,7 @@ int main(void)
 			free(line);
 			exit(0); /* Exit on Ctrl+D */
 		}
+
 		/* Remove newline character */
 		if (line[read - 1] == '\n')
 			line[read - 1] = '\0';
@@ -34,17 +36,27 @@ int main(void)
 			free(line);
 			exit(0);
 		}
+
+		/* Handle built-in env */
 		if (strcmp(line, "env") == 0)
 		{
 			print_env();
 			continue;
 		}
+
+		/* Skip whitespace-only input */
 		if (is_whitespace(line))
 			continue;
 
+		/* Execute command and get return code */
+		ret = execute_command(line);
 
-	execute_command(line);
-
+		/* If in non-interactive mode (e.g., pipe/script), exit with ret code */
+		if (!isatty(STDIN_FILENO))
+		{
+			free(line);
+			exit(ret);
+		}
 	}
 
 	free(line);
