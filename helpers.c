@@ -54,8 +54,8 @@ char *find_command(char *cmd)
 	char *full_path = NULL;
 	int len, i = 0;
 
-	/* If command is already an absolute/relative path */
-	if (cmd[0] == '/' || strncmp(cmd, "./", 2) == 0)
+	/* If command is an absolute or relative path, check directly */
+	if (cmd[0] == '/' || strncmp(cmd, "./", 2) == 0 || strncmp(cmd, "../", 3) == 0)
 	{
 		if (access(cmd, X_OK) == 0)
 			return (strdup(cmd));
@@ -63,7 +63,7 @@ char *find_command(char *cmd)
 			return (NULL);
 	}
 
-	/* Manually find PATH from environ */
+	/* Manually retrieve PATH from environment */
 	while (environ[i])
 	{
 		if (strncmp(environ[i], "PATH=", 5) == 0)
@@ -74,7 +74,7 @@ char *find_command(char *cmd)
 		i++;
 	}
 
-	/* PATH is empty or not set */
+	/* No PATH or it's empty */
 	if (!path || *path == '\0')
 		return (NULL);
 
@@ -94,6 +94,7 @@ char *find_command(char *cmd)
 		}
 
 		sprintf(full_path, "%s/%s", dir, cmd);
+
 		if (access(full_path, X_OK) == 0)
 		{
 			free(path_copy);
