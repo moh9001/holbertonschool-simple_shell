@@ -130,3 +130,35 @@ int is_whitespace(const char *str)
 	return (1);
 }
 
+/**
+ * trim_spaces - Removes leading and trailing spaces/tabs
+ * @str: The input string to trim
+ * Return: Pointer to the trimmed string (same buffer)
+ */
+char *trim_spaces(char *str)
+{
+	char *start = str;
+	char *end;
+
+	/* Skip leading spaces */
+	while (*start == ' ' || *start == '\t')
+		start++;
+
+	if (*start == 0)
+	{
+		*str = '\0';
+		return str;
+	}
+
+	/* Move trimmed content to the beginning */
+	if (start != str)
+		memmove(str, start, strlen(start) + 1);
+
+	/* Trim trailing spaces */
+	end = str + strlen(str) - 1;
+	while (end > str && (*end == ' ' || *end == '\t'))
+		end--;
+
+	end[1] = '\0';
+	return str;
+}
