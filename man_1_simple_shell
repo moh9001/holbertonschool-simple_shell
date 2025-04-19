@@ -1,0 +1,36 @@
+.TH SIMPLE_SHELL 1 "April 2025" "Version 1.0" "User Commands"
+.SH NAME
+hsh \- simple UNIX command interpreter
+.SH SYNOPSIS
+.B hsh
+.SH DESCRIPTION
+.B hsh
+is a simple UNIX shell that reads commands from standard input and executes them.
+It supports basic command execution, arguments, PATH handling, and built-in commands
+like
+.B exit
+and
+.B env.
+.SH COMMANDS
+.TP
+.B exit
+Exits the shell.
+.TP
+.B env
+Prints the current environment variables.
+.SH EXAMPLES
+.TP
+Interactive mode:
+.B ./hsh
+($) /bin/ls
+dir1 dir2 file1
+($) exit
+.TP
+Non-interactive mode:
+.B echo "/bin/ls" | ./hsh
+.SH AUTHOR
+Written by [Your Name].
+.SH SEE ALSO
+.BR sh(1),
+.BR execve(2),
+.BR fork(2)
