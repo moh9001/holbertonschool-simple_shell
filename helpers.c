@@ -54,7 +54,7 @@ char *find_command(char *cmd)
 	char *full_path = NULL;
 	int len, i = 0;
 
-	/* If command is an absolute or relative path, check directly */
+	/* Absolute or relative paths? Try directly */
 	if (cmd[0] == '/' || strncmp(cmd, "./", 2) == 0 || strncmp(cmd, "../", 3) == 0)
 	{
 		if (access(cmd, X_OK) == 0)
@@ -63,7 +63,7 @@ char *find_command(char *cmd)
 			return (NULL);
 	}
 
-	/* Manually retrieve PATH from environment */
+	/* Get PATH from environment manually */
 	while (environ[i])
 	{
 		if (strncmp(environ[i], "PATH=", 5) == 0)
@@ -74,7 +74,7 @@ char *find_command(char *cmd)
 		i++;
 	}
 
-	/* No PATH or it's empty */
+	/* If PATH is missing or empty, stop here */
 	if (!path || *path == '\0')
 		return (NULL);
 
