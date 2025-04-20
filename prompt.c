@@ -25,7 +25,6 @@ char	*read_line(void)
 		free(line);
 		return (NULL);
 	}
-	if (chars_read > 0 && line[chars_read - 1] == '\n')
-		line[chars_read - 1] = '\0';
+	line[strcspn(line, "\n")] = '\0';
 	return (line);
 }

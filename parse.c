@@ -11,14 +11,17 @@ void	count_args(char *line, int *arg_count)
 	char	*token;
 
 	*arg_count = 0;
+	if (!line || !*line)
+		return;
 	temp = strdup(line);
 	if (!temp)
 		return;
-	token = strtok(temp, " \t");
+	token = strtok(temp, " \t\n");
 	while (token)
 	{
-		(*arg_count)++;
-		token = strtok(NULL, " \t");
+		if (*token)
+			(*arg_count)++;
+		token = strtok(NULL, " \t\n");
 	}
 	free(temp);
 }
@@ -31,24 +34,35 @@ void	count_args(char *line, int *arg_count)
  */
 void	store_args(char *line, char **args, int arg_count)
 {
+	char	*temp;
 	char	*token;
 	int	i = 0;
 
-	token = strtok(line, " \t");
+	if (!line || !*line)
+		return;
+	temp = strdup(line);
+	if (!temp)
+		return;
+	token = strtok(temp, " \t\n");
 	while (token && i < arg_count)
 	{
-		args[i] = strdup(token);
-		if (!args[i])
+		if (*token)
 		{
-			while (i > 0)
-				free(args[--i]);
-			free(args);
-			return;
+			args[i] = strdup(token);
+			if (!args[i])
+			{
+				while (i > 0)
+					free(args[--i]);
+				free(temp);
+				return;
+			}
+			args[i][strcspn(args[i], "\n")] = '\0';
+			i++;
 		}
-		i++;
-		token = strtok(NULL, " \t");
+		token = strtok(NULL, " \t\n");
 	}
 	args[i] = NULL;
+	free(temp);
 }
 
 /**
@@ -61,7 +75,11 @@ char	**parse_command(char *line)
 	char	**args;
 	int	arg_count;
 
+	if (!line || !*line)
+		return (NULL);
 	count_args(line, &arg_count);
+	if (arg_count == 0)
+		return (NULL);
 	args = malloc((arg_count + 1) * sizeof(char *));
 	if (!args)
 		return (NULL);

@@ -26,7 +26,7 @@ int	main(int argc, char *argv[], char *env[])
 				write(STDOUT_FILENO, "\n", 1);
 			break;
 		}
-		if (line[0] != '\0')
+		if (line[0] && strspn(line, " \t\n") < strlen(line))
 		{
 			status = execute_command(line, program_name, env);
 			if (status == -1)
