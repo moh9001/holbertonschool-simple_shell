@@ -12,6 +12,7 @@ int	main(int argc, char *argv[], char *env[])
 	char	*line;
 	char	*program_name = argv[0];
 	int	status;
+	int	last_status = 0;
 
 	(void)argc;
 	while (1)
@@ -31,10 +32,13 @@ int	main(int argc, char *argv[], char *env[])
 			if (status == -1)
 			{
 				free(line);
-				return (0);
+				return (last_status);
 			}
+			last_status = status;
 		}
 		free(line);
 	}
+	if (!isatty(STDIN_FILENO))
+		return (last_status);
 	return (0);
 }

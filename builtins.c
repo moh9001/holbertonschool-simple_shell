@@ -5,9 +5,11 @@
  * @args: Array of arguments
  * @program_name: Name of the program
  * @env: Environment variables
- * Return: 1 if built-in handled, -1 for exit, 0 otherwise
+ * @last_status: Last command's exit status
+ * Return: 1 if built-in handled, last_status for exit, 0 otherwise
  */
-int	handle_builtins(char **args, char *program_name, char **env)
+int handle_builtins(char **args, char *program_name, char **env
+		, int last_status)
 {
 	int	i;
 
@@ -15,7 +17,7 @@ int	handle_builtins(char **args, char *program_name, char **env)
 	if (strcmp(args[0], "exit") == 0)
 	{
 		free_array(args);
-		return (-1);
+		return (last_status);
 	}
 	else if (strcmp(args[0], "env") == 0)
 	{
