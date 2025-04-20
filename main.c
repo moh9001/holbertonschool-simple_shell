@@ -11,6 +11,7 @@ int	main(int argc, char *argv[], char *env[])
 {
 	char	*line;
 	char	*program_name = argv[0];
+	int	status;
 
 	(void)argc;
 	while (1)
@@ -25,7 +26,14 @@ int	main(int argc, char *argv[], char *env[])
 			break;
 		}
 		if (line[0] != '\0')
-			execute_command(line, program_name, env);
+		{
+			status = execute_command(line, program_name, env);
+			if (status == -1)
+			{
+				free(line);
+				return (0);
+			}
+		}
 		free(line);
 	}
 	return (0);
