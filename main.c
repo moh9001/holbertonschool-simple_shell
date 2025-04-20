@@ -12,19 +12,19 @@ int	main(int argc, char *argv[], char *env[])
 	char	*line;
 	char	*program_name = argv[0];
 
-	(void)argc; /* Suppress unused parameter warning */
+	(void)argc;
 	while (1)
 	{
 		if (isatty(STDIN_FILENO))
 			display_prompt();
 		line = read_line();
-		if (line == NULL) /* EOF (Ctrl+D) */
+		if (line == NULL)
 		{
 			if (isatty(STDIN_FILENO))
 				write(STDOUT_FILENO, "\n", 1);
 			break;
 		}
-		if (line[0] != '\0') /* Ignore empty lines */
+		if (line[0] != '\0')
 			execute_command(line, program_name, env);
 		free(line);
 	}
