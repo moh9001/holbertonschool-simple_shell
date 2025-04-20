@@ -58,7 +58,7 @@ int	execute_command(char *command, char *program_name, char **env)
 	args = parse_command(command);
 	if (!args)
 		return (1);
-	if (handle_builtins(args, program_name, env))
+	if (handle_builtins(args, program_name, env, 0))
 		return (0);
 	full_path = find_command(args[0], env);
 	if (!full_path)
