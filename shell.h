@@ -18,5 +18,6 @@ void	print_error(char *program_name, char *command);
 void	free_array(char **array);
 int	handle_builtins(char **args, char *program_name, char **env
 		, int last_status, int *builtin_handled);
+int	has_non_whitespace(char *str);
 
 #endif

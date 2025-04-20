@@ -18,6 +18,7 @@ char	*read_line(void)
 	char	*line = NULL;
 	size_t	bufsize = 0;
 	ssize_t	chars_read;
+	int	i;
 
 	chars_read = getline(&line, &bufsize, stdin);
 	if (chars_read == -1)
@@ -25,6 +26,9 @@ char	*read_line(void)
 		free(line);
 		return (NULL);
 	}
-	line[strcspn(line, "\n")] = '\0';
+	i = 0;
+	while (line[i] && line[i] != '\n')
+		i++;
+	line[i] = '\0';
 	return (line);
 }
