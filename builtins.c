@@ -15,15 +15,11 @@ int handle_builtins(char **args, char *program_name, char **env
 
 	(void)program_name;
 	if (strcmp(args[0], "exit") == 0)
-	{
-		free_array(args);
 		return (last_status);
-	}
 	else if (strcmp(args[0], "env") == 0)
 	{
 		for (i = 0; env[i]; i++)
 			printf("%s\n", env[i]);
-		free_array(args);
 		return (1);
 	}
 	return (0);
