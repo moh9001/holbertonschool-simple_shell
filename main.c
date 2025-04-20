@@ -1,49 +1,32 @@
 #include "shell.h"
 
 /**
- * main - Entry point of the shell
- *
- * Return: Always 0
+ * main - Entry point for the shell
+ * @argc: Argument count
+ * @argv: Argument vector
+ * @env: Environment variables
+ * Return: 0 on success, 1 on failure
  */
-int main(void)
+int	main(int argc, char *argv[], char *env[])
 {
-	char *line = NULL;
-	size_t len = 0;
-	ssize_t read;
-	int ret = 0;
+	char	*line;
+	char	*program_name = argv[0];
 
+	(void)argc; /* Suppress unused parameter warning */
 	while (1)
 	{
 		if (isatty(STDIN_FILENO))
-			write(STDOUT_FILENO, "$ ", 2);
-
-		read = getline(&line, &len, stdin);
-		if (read == -1)
+			display_prompt();
+		line = read_line();
+		if (line == NULL) /* EOF (Ctrl+D) */
 		{
-			free(line);
-			exit(ret); /* use last command's return code */
+			if (isatty(STDIN_FILENO))
+				write(STDOUT_FILENO, "\n", 1);
+			break;
 		}
-
-		if (line[read - 1] == '\n')
-			line[read - 1] = '\0';
-
-		trim_spaces(line);
-
-		if (is_whitespace(line))
-			continue;
-
-		if (strcmp(line, "exit") == 0)
-		{
-			free(line);
-			exit(0);
-		}
-
-		if (strcmp(line, "env") == 0)
-		{
-			print_env();
-			continue;
-		}
-
-		ret = execute_command(line); /* update return value */
+		if (line[0] != '\0') /* Ignore empty lines */
+			execute_command(line, program_name, env);
+		free(line);
 	}
+	return (0);
 }
