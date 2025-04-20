@@ -11,7 +11,8 @@
 
 void	display_prompt(void);
 char	*read_line(void);
-int	execute_command(char *command, char *program_name, char **env);
+int	execute_command(char *command, char *program_name
+		, char **env, int last_status);
 char	**parse_command(char *line);
 char	*find_command(char *command, char **env);
 void	print_error(char *program_name, char *command);

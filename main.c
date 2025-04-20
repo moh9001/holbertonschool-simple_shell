@@ -28,7 +28,7 @@ int	main(int argc, char *argv[], char *env[])
 		}
 		if (line[0] && has_non_whitespace(line))
 		{
-			status = execute_command(line, program_name, env);
+			status = execute_command(line, program_name, env, last_status);
 			if (status == -1)
 			{
 				free(line);

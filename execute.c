@@ -8,8 +8,8 @@
  * @env: Environment variables
  * @status: Pointer to store exit status
  */
-void	fork_and_exec(char **args, char *full_path, char *program_name, char **env
-		, int *status)
+void	fork_and_exec(char **args, char *full_path, char *program_name
+		, char **env, int *status)
 {
 	pid_t	pid;
 
@@ -44,9 +44,11 @@ void	fork_and_exec(char **args, char *full_path, char *program_name, char **env
  * @command: Command to execute
  * @program_name: Name of the program (argv[0])
  * @env: Environment variables
+ * @last_status: Last command's exit status
  * Return: Exit status of the command
  */
-int	execute_command(char *command, char *program_name, char **env)
+int	execute_command(char *command, char *program_name, char **env
+		, int last_status)
 {
 	char	**args;
 	char	*full_path;
@@ -56,7 +58,8 @@ int	execute_command(char *command, char *program_name, char **env)
 	args = parse_command(command);
 	if (!args)
 		return (1);
-	status = handle_builtins(args, program_name, env, 0, &builtin_handled);
+	status = handle_builtins(args, program_name, env, last_status
+			, &builtin_handled);
 	if (builtin_handled)
 	{
 		free_array(args);
